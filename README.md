@@ -12,7 +12,7 @@ This script deletes old videos from their default location on the vetsim PC.
     
 
 ```bash
-#!/bin/bash
+    #!/bin/bash
     #David Rhoads, December 2019
     #Script to delete old video files
     #Replace /path/to/directory with actual path to video folder. 
