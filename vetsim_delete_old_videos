@@ -6,6 +6,10 @@
 #-mtime checks the time since the last modification of the file
 #-type -f tells the program it should look at files
 #-delete tells the program to delete the files (surprise :-))
-#!/bin/bash
 
-find /path/to/directory -mtime +30 -type f -delete
+echo "This program deletes files older than a specified date at a specified location."
+while true
+do
+    find '/path/to/directory' -mtime +30 -type f -delete
+    sleep 30
+done
