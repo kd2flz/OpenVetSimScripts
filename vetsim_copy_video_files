@@ -1,0 +1,6 @@
+#!/bin/bash
+
+#This script copies video files from a specified location to another specified location
+#It can be set to continuously scan the folder for new files
+
+rsync -r -n -t -v --progress --ignore-existing --modify-window=1 -z -s /path/to/directory /media/user/device_name/folder
