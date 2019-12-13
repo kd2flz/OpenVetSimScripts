@@ -1,6 +1,13 @@
 #!/bin/bash
 
-#David Rhoads, December 2019
+#################################
+# vetsim_delete_old_videos      #
+# Written by David Rhoads       #
+# December 13, 2019             #
+#################################
+
+# https://github.com/kd2flz/OpenVetSimScripts 
+
 #Script to delete old video files
 #Replace /path/to/directory with actual path to video folder.
 #Be sure folder is actually there before running the script
