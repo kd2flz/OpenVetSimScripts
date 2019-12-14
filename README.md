@@ -30,4 +30,52 @@ This script deletes old videos from their default location on the vetsim PC.
 ```
 
 ### 2. vetsim_copy_video_files
-This script copies videos to an external device. This is usefull if you want to store the videos on an external hard drive
+This script copies videos to an external device. This is useful if you want to store the videos on an external hard drive
+
+```bash
+#!/bin/bash
+
+#################################
+# vetsim_copy_video_files       #
+# Written by David Rhoads       #
+# December 13, 2019             #
+#################################
+
+# https://github.com/kd2flz/OpenVetSimScripts 
+
+#This script copies video files from a specified location to another specified location
+#It can be set to continuously scan the folder for new files
+#I would reccomend installing grsync (sudo apt install grsync), and using it's built in dry run feature to generate the correct script
+#However, if you feel confident, you can also install rsync modify the below script to reflect the correct paths for your device
+
+
+echo "This program copies files from an a specified folder on your hard drive to an external device."
+while true
+do
+    rsync -r -n -t -v --progress --ignore-existing --modify-window=1 -z -s /path/to/directory /media/user/device_name/folder
+     #Change the number after sleep to reflect the seconds you want the script to wait before running rsync again
+    sleep 10
+done
+```
+
+## Using Rsync
+This script uses rsync to sync new files to the device. It periodically runs the rsync command. The frequency the command is run can be changed by changing the number after sleep. 
+
+I would recomend installing the gui wrapper for rsync - grsync, as it allows you to select the correct folders and files, and a myriad of other options, and then generates the correct rsync command for you (I haven't found a way to automate grsync itself yet, if you know of one, please let me know.)
+
+You can install grsync with
+```
+sudo apt install grsync
+```
+
+If you're a command line junkie, and the mere thought of using the gui gives you the heebie jeebies, have no fear, rsync can be installed by 
+
+```
+sudo apt install rsync
+```
+I take no responsibility for anything that happens after you've done this. However, the rsync man page may be of some help https://linux.die.net/man/1/rsync. 
+
+## Setting up the scripts as a service
+This section is currently in development. My initial thought was to make the scripts executable and then just set them to run on startup from Ubuntu's graphical "startup applications" utility. Howmsoever (I know that's not a word). This does not seem to be working. 
+
+I will continue to test this. However, my plan B is to make a systemd service that automatically runs these scripts. 
