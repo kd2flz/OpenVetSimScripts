@@ -73,7 +73,7 @@ If you're a command line junkie, and the mere thought of using the gui gives you
 ```
 sudo apt install rsync
 ```
-I take no responsibility for anything that happens after you've done this. However, the rsync man page may be of some help https://linux.die.net/man/1/rsync. 
+I take no responsibility for anything that happens if you use plain old rsync. However, the rsync man page may be of some help https://linux.die.net/man/1/rsync. 
 
 ## Setting up the scripts as a service
 This section is currently in development. My initial thought was to make the scripts executable and then just set them to run on startup from Ubuntu's graphical "startup applications" utility. Howmsoever (I know that's not a word). This does not seem to be working. 
