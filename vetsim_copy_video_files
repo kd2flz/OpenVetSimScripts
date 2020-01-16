@@ -16,7 +16,7 @@
 echo "This program copies files from a specified folder on your hard drive to an external device."
 while true
     do
-       rsync -r -t -v --progress --ignore-existing --modify-window=1 -z -s /home/david/Pictures /'media/david/Dave Rhoads/Pictures'
+       rsync -r -t -v --progress --ignore-existing --modify-window=1 -z -s /home/david/Pictures /'media/username/devicename/folder'
         #Change the number after sleep to reflect the number of seconds you want the script to wait before running rsync again
         sleep 10
     done

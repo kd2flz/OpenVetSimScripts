@@ -80,7 +80,37 @@ This section is currently in development. My initial thought was to make the scr
 
 I will continue to test this. However, my plan B is to make a systemd service that automatically runs these scripts.
 
-### Creating a systemd service
+### Creating the systemd services
 Open a terminal using [ctrl][alt][T] (some linux distributions use [Super][T] instead).
 
-Type `cd /etc/systemd` to change into the systemd directory. 
+Type cd /etc/systemd/system to change into the systemd directory. 
+
+To create the actual service, type
+
+```
+sudo nano vetsim_delete_videos.service
+```
+The nano text editor should open in the terminal. Paste the following into the terminal by using right click and paste:
+```
+[Unit]
+Description=delete old vetsim videos service
+After=network.target
+StartLimitIntervalSec=0
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=username
+ExecStart=/home/username/Desktop/VetSimScripts/vetsim_delete_old_videos
+
+[Install]
+WantedBy=multi-user.target
+```
+Turn on the service using 
+```
+sudo systemctl start vetsim_delete_videos.service
+```
+Enable the service to run on boot:
+```
+sudo systemctl enable vetsim_delete_videos.service
+```
