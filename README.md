@@ -80,12 +80,20 @@ This section is currently in development. My initial thought was to make the scr
 
 I will continue to test this. However, my plan B is to make a systemd service that automatically runs these scripts.
 
-### Creating the systemd services
+Currently I've got this working on a flash drive formatted as NTFS. I'm not sure why FAT is not working but NTFS should work fine with Windows, so it should be OK.
+
+### Creating the systemd service for deleting old files
 Open a terminal using [ctrl][alt][T] (some linux distributions use [Super][T] instead).
 
 Type cd /etc/systemd/system to change into the systemd directory. 
 
-To create the actual service, type
+To create the actual service, you must first switch to the vet account because vitals is not in the sudoers file
+```
+su vet
+```
+Next enter the password for vet which is vet.
+
+Next, type the following:
 
 ```
 sudo nano vetsim_delete_videos.service
@@ -100,12 +108,51 @@ StartLimitIntervalSec=0
 Type=simple
 Restart=always
 RestartSec=1
-User=username
-ExecStart=/home/username/Desktop/VetSimScripts/vetsim_delete_old_videos
+User=vet
+ExecStart=/home/vitals/Desktop/VetSimScripts/vetsim_delete_old_videos
 
 [Install]
 WantedBy=multi-user.target
 ```
+Make sure to the service reflect the username and home directory of the correct user (in this case vitals)
+Turn on the service using 
+```
+sudo systemctl start vetsim_delete_videos.service
+```
+Enable the service to run on boot:
+```
+sudo systemctl enable vetsim_delete_videos.service
+```
+
+### Creating the systemd service for copying files
+Open a terminal using [ctrl][alt][T] (some linux distributions use [Super][T] instead).
+
+Type cd /etc/systemd/system to change into the systemd directory. 
+
+You should still be in the vet account, but if you have closed your terminal window or exited it, follow the instructions above for changing to the vet account.
+
+Next, type the following:
+
+```
+sudo nano vetsim_copy_videos.service
+```
+The nano text editor should open in the terminal. Paste the following into the terminal by using right click and paste:
+```
+[Unit]
+Description=copy old vetsim videos service
+After=network.target
+StartLimitIntervalSec=0
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=vet
+ExecStart=/home/vitals/Desktop/VetSimScripts/vetsim_copy_video_files
+
+[Install]
+WantedBy=multi-user.target
+```
+Make sure to the service reflect the username and home directory of the correct user (in this case vitals)
 Turn on the service using 
 ```
 sudo systemctl start vetsim_delete_videos.service
