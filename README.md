@@ -2,8 +2,18 @@
 A repository for file management scripts made for OpenVetSim
 
 ## Introduction
-These scripts were designed for use with the OpenVetSim project made by Cornell. They were created to solve a simple problem: OpenVetSim keeps it's video files on the computer's hard drive, and there is no way to change the location.
+These scripts were designed for use with the OpenVetSim project made by Cornell. 
 
+## Purpose
+These scripts perform two simple tasks
+
+### 1. Delete Old Videos
+The videos made by VetSim take up a lot of space. It would be nice to delete them after a specified amount of time. That's what this script does. The time is adjustable from inside the script
+
+### 2. Copy videos to an external device
+Non-technical faculty members wanted a way to easily get the videos onto their computer without having to manually copy them over every time. Since VetSim doesn't allow you to change the video storage location, I wrote a script to periodically copy new files an external flash drive or USB.
+
+## Requirements
 These scripts are designed to be run as systemd services on linux (the VetSim pc runs Ubuntu)
 
 ## The Scripts
@@ -13,20 +23,28 @@ This script deletes old videos from their default location on the vetsim PC.
 
 ```bash
     #!/bin/bash
-    #David Rhoads, December 2019
-    #Script to delete old video files
-    #Replace /path/to/directory with actual path to video folder. 
-    #Be sure folder is actually there before running the script
-    #-mtime checks the time since the last modification of the file
-    #-type -f tells the program it should look at files
-    #-delete tells the program to delete the files (surprise :-))
 
-    echo "This program deletes files older than a specified date at a specified location."
-    while true
-    do
-        find '/path/to/directory' -mtime +30 -type f -delete
-        sleep 30
-    done
+#################################
+# vetsim_delete_old_videos      #
+# Written by David Rhoads       #
+# December 13, 2019             #
+#################################
+
+# https://github.com/kd2flz/OpenVetSimScripts 
+
+#Script to delete old video files
+#Replace /path/to/directory with actual path to video folder.
+#Be sure folder is actually there before running the script
+#-mtime checks the time since the last modification of the file
+#-type -f tells the program it should look at files
+#-delete tells the program to delete the files (surprise :-))
+
+echo "This program deletes files older than a specified date at a specified location."
+while true
+do
+    find '/path/to/directory' -mtime +30 -type f -delete
+    sleep 30
+done
 ```
 
 ### 2. vetsim_copy_video_files
@@ -46,16 +64,15 @@ This script copies videos to an external device. This is useful if you want to s
 #This script copies video files from a specified location to another specified location
 #It can be set to continuously scan the folder for new files
 #I would reccomend installing grsync (sudo apt install grsync), and using it's built in dry run feature to generate the correct script
-#However, if you feel confident, you can also install rsync modify the below script to reflect the correct paths for your device
+#However, if you feel confident, you can also modify the below script to reflect the correct paths for your device
 
-
-echo "This program copies files from an a specified folder on your hard drive to an external device."
+echo "This program copies files from a specified folder on your hard drive to an external device."
 while true
-do
-    rsync -r -n -t -v --progress --ignore-existing --modify-window=1 -z -s /path/to/directory /media/user/device_name/folder
-     #Change the number after sleep to reflect the seconds you want the script to wait before running rsync again
-    sleep 10
-done
+    do
+       rsync -r -t -v --progress --ignore-existing --modify-window=1 -z -s /home/david/Pictures /'media/username/devicename/folder'
+        #Change the number after sleep to reflect the number of seconds you want the script to wait before running rsync again
+        sleep 10
+    done
 ```
 
 ## Using Rsync
